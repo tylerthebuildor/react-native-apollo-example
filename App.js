@@ -22,7 +22,7 @@ export default class ApolloApp extends React.Component {
 // Apollo client
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cixos23120m0n0173veiiwrjr' }),
-  cache: new InMemoryCache().restore({})
+  cache: new InMemoryCache().restore({}),
 });
  
 // Example query from https://www.graph.cool/
@@ -39,9 +39,9 @@ const MOVIE_QUERY = gql`
  
 // MovieDetails Component
 const MovieDetails = graphql(MOVIE_QUERY)(({ data }) => {
-  const { loading, allMovies } = data
+  const { loading, allMovies } = data;
 
-  if (loading) return <View><Text>loading...</Text></View>
+  if (loading) return <View><Text>loading...</Text></View>;
 
   return (
     <View style={{ padding: 10 }}>
@@ -52,5 +52,5 @@ const MovieDetails = graphql(MOVIE_QUERY)(({ data }) => {
         </Text>
       ))}
     </View>
-  )
+  );
 });
