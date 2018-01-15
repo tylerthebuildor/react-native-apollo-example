@@ -28,11 +28,10 @@ const client = new ApolloClient({
 // Example query from https://www.graph.cool/
 const MOVIE_QUERY = gql`
 {
-  Movie(id: "cixos5gtq0ogi0126tvekxo27") {
-    id
+  allMovies {
     title
     actors {
-       name
+      name
     }
   }
 }
@@ -40,19 +39,19 @@ const MOVIE_QUERY = gql`
  
 // MovieDetails Component
 const MovieDetails = graphql(MOVIE_QUERY)(({ data }) => {
-  const { loading, Movie } = data
+  const { loading, allMovies } = data
   // Loading
   if (loading) return <View><Text>loading...</Text></View>
   
   // Loaded
   return (
     <View style={{ padding: 10 }}>
-      <Text style={{ fontWeight: 'bold' }}>
-        {Movie.title}:
-      </Text>
-      <Text>
-        {Movie.actors.map(({ name }) => name).join(', ')}
-      </Text>
+      {allMovies.map(({ title, actors }) => (
+        <Text key={title}>
+          {title}: {actors.map(({ name }) => name).join(', ')}
+          {'\n'}
+        </Text>
+      ))}
     </View>
   )
 });
