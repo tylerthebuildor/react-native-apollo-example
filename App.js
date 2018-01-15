@@ -40,10 +40,9 @@ const MOVIE_QUERY = gql`
 // MovieDetails Component
 const MovieDetails = graphql(MOVIE_QUERY)(({ data }) => {
   const { loading, allMovies } = data
-  // Loading
+
   if (loading) return <View><Text>loading...</Text></View>
-  
-  // Loaded
+
   return (
     <View style={{ padding: 10 }}>
       {allMovies.map(({ title, actors }) => (
