@@ -1,16 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
-import ApolloClient from 'apollo-client'
-import { HttpLink, InMemoryCache } from 'apollo-client-preset'
-import { ApolloProvider, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import ApolloClient from 'apollo-client';
+import { HttpLink, InMemoryCache } from 'apollo-client-preset';
+import { ApolloProvider, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+
+// Main App export
+export default class ApolloApp extends React.Component {
+  render() {
+    return(
+      <ApolloProvider client={client}>
+        <SafeAreaView>
+          <MovieDetails />
+        </SafeAreaView>
+      </ApolloProvider>
+    );
+  }
+}
  
 // Apollo client
 const client = new ApolloClient({
   link: new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cixos23120m0n0173veiiwrjr' }),
   cache: new InMemoryCache().restore({})
-})
+});
  
 // Example query from https://www.graph.cool/
 const MOVIE_QUERY = gql`
@@ -23,10 +36,10 @@ const MOVIE_QUERY = gql`
     }
   }
 }
-`
+`;
  
-// Our App
-const App = graphql(MOVIE_QUERY)(({ data }) => {
+// MovieDetails Component
+const MovieDetails = graphql(MOVIE_QUERY)(({ data }) => {
   const { loading, Movie } = data
   // Loading
   if (loading) return <View><Text>loading...</Text></View>
@@ -42,17 +55,4 @@ const App = graphql(MOVIE_QUERY)(({ data }) => {
       </Text>
     </View>
   )
-})
- 
-export default class ApolloApp extends React.Component {
-  render() {
-    return(
-      <ApolloProvider client={client}>
-        <SafeAreaView>
-          <App />
-        </SafeAreaView>
-      </ApolloProvider>
-    );
-  }
-}
-
+});
